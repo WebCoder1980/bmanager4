@@ -1,3 +1,8 @@
 spring:
   application:
     name: bmanager4
+  neo4j:
+    uri: bolt://${APP_HOST}:${APP_PORT}
+    authentication:
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
