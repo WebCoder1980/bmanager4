@@ -2,6 +2,7 @@ package org.myproject.bmanager4.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.myproject.bmanager4.dto.CommonNodeDTO;
+import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.node.CommonNode;
 import org.neo4j.driver.types.Node;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class NodeDTOConverter {
         );
     }
 
-    public Map<String, CommonNodeDTO> toDTO(Map<String, CommonNode> source) {
-        return source.entrySet()
+    public CommonNodesStartAndEndDTO toDTO(Map<String, CommonNode> source) {
+        Map<String, CommonNodeDTO> startNodes = source.entrySet()
                 .stream()
                 .collect(
                         Collectors.toMap(
@@ -45,6 +46,18 @@ public class NodeDTOConverter {
                                 entry -> toDTO(entry.getValue())
                         )
                 );
+
+        Map<String, CommonNodeDTO> endNodes = new TreeMap<>();
+
+        for (var entry : source.entrySet()) {
+            for (var setNodes : entry.getValue().getRelationNodes().entrySet()) {
+                for (var node : setNodes.getValue()) {
+                    endNodes.computeIfAbsent(node.getElementId(), key -> toDTO(node));
+                }
+            }
+        }
+
+        return new CommonNodesStartAndEndDTO(startNodes, endNodes);
     }
 
     public CommonNode appliedNodeToCommonNode(Map<String, CommonNode> nodes, Node oldNode) {

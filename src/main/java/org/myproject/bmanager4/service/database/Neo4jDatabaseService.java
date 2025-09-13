@@ -1,7 +1,7 @@
 package org.myproject.bmanager4.service.database;
 
 import org.myproject.bmanager4.converter.NodeDTOConverter;
-import org.myproject.bmanager4.dto.CommonNodeDTO;
+import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.node.CommonNode;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;
@@ -30,11 +30,11 @@ public class Neo4jDatabaseService {
         driver.verifyConnectivity();
     }
 
-    public Map<String, CommonNodeDTO> getQueryNRM(String queryStr) {
+    public CommonNodesStartAndEndDTO getQueryNRM(String queryStr) {
         return getNodesFromQueryStr(queryStr);
     }
 
-    private Map<String, CommonNodeDTO> getNodesFromQueryStr(String queryStr) {
+    private CommonNodesStartAndEndDTO getNodesFromQueryStr(String queryStr) {
         Map<String, CommonNode> nodes = new HashMap<>();
 
         ExecutableQuery query = driver.executableQuery(queryStr);
