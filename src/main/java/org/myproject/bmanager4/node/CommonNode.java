@@ -15,7 +15,7 @@ public class CommonNode {
 
     private Set<String> labels;
 
-    private Map<String, String> properties;
+    private Map<String, Object> properties;
 
     private Map<String, Set<CommonNode>> relationNodes;
 }
