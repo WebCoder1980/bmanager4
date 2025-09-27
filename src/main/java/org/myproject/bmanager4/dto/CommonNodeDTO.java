@@ -16,6 +16,4 @@ public class CommonNodeDTO {
     private Set<String> labels;
 
     private Map<String, String> properties;
-
-    private Map<String, Set<String>> relationNodes;
 }

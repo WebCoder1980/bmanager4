@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -22,28 +23,35 @@ public class NodeDTOConverter {
         return new CommonNodeDTO(
                 source.getElementId(),
                 source.getLabels(),
-                source.getProperties(),
-                source.getRelationNodes()
-                        .entrySet()
-                        .stream()
-                        .collect(Collectors.toMap(Map.Entry::getKey,
-                                        entry2 -> entry2.getValue()
-                                                .stream()
-                                                .map(CommonNode::getElementId)
-                                                .collect(Collectors.toSet())
-                                )
-                        )
-
+                source.getProperties()
         );
     }
 
+    public CommonNodeDTO toDTO(CommonNode source, Map<String, Map<String, Set<String>>> adjacencyMap) {
+        String fromElementId = source.getElementId();
+        for (Map.Entry<String, Set<CommonNode>> relation : source.getRelationNodes().entrySet()) {
+            String relationType = relation.getKey();
+            for (CommonNode toNode : relation.getValue()) {
+                adjacencyMap.computeIfAbsent(fromElementId, (key) -> new TreeMap<>());
+                adjacencyMap.get(fromElementId).computeIfAbsent(relationType, (key) -> new TreeSet<>());
+                adjacencyMap.get(fromElementId)
+                        .get(relationType)
+                        .add(toNode.getElementId());
+            }
+        }
+
+        return toDTO(source);
+    }
+
     public CommonNodesStartAndEndDTO toDTO(Map<String, CommonNode> source) {
+        Map<String, Map<String, Set<String>>> adjacencyMap = new TreeMap<>();
+
         Map<String, CommonNodeDTO> startNodes = source.entrySet()
                 .stream()
                 .collect(
                         Collectors.toMap(
                                 Map.Entry::getKey,
-                                entry -> toDTO(entry.getValue())
+                                entry -> toDTO(entry.getValue(), adjacencyMap)
                         )
                 );
 
@@ -57,7 +65,7 @@ public class NodeDTOConverter {
             }
         }
 
-        return new CommonNodesStartAndEndDTO(startNodes, endNodes);
+        return new CommonNodesStartAndEndDTO(startNodes, endNodes, adjacencyMap);
     }
 
     public CommonNode appliedNodeToCommonNode(Map<String, CommonNode> nodes, Node oldNode) {
