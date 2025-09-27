@@ -1,6 +1,7 @@
 package org.myproject.bmanager4.service.database;
 
 import org.myproject.bmanager4.converter.NodeDTOConverter;
+import org.myproject.bmanager4.dto.CommonNodeDTO;
 import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.node.CommonNode;
 import org.neo4j.driver.*;
@@ -11,10 +12,7 @@ import org.neo4j.driver.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class Neo4jDatabaseService {
@@ -31,10 +29,6 @@ public class Neo4jDatabaseService {
     }
 
     public CommonNodesStartAndEndDTO getQueryNRM(String queryStr) {
-        return getNodesFromQueryStr(queryStr);
-    }
-
-    private CommonNodesStartAndEndDTO getNodesFromQueryStr(String queryStr) {
         Map<String, CommonNode> nodes = new HashMap<>();
 
         ExecutableQuery query = driver.executableQuery(queryStr);
@@ -73,5 +67,26 @@ public class Neo4jDatabaseService {
         }
 
         return nodeDTOConverter.toDTO(nodes);
+    }
+
+    public void executeQuery(String queryStr) {
+        driver.executableQuery(queryStr).execute();
+    }
+
+    public CommonNodeDTO executeNQuery(String queryStr) {
+        ExecutableQuery query = driver.executableQuery(queryStr);
+        EagerResult eagerResult = query.execute();
+
+        Record record = eagerResult.records().getFirst();
+        List<Pair<String, Value>> fields = record.fields();
+
+        if (fields.size() != 1 || !fields.get(0).key().equals("n")) {
+            throw new IllegalArgumentException();
+        }
+
+        Node appliedNode = fields.getFirst().value().asNode();
+        CommonNode commonNode = nodeDTOConverter.appliedNodeToCommonNode(new TreeMap<>(), appliedNode);
+
+        return nodeDTOConverter.toDTO(commonNode);
     }
 }
