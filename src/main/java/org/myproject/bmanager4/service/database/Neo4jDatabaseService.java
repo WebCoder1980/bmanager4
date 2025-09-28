@@ -89,4 +89,19 @@ public class Neo4jDatabaseService {
 
         return nodeDTOConverter.toDTO(commonNode);
     }
+
+    public CommonNodeDTO commonCreate(String queryStr, Map<String, Object> properties) {
+        ExecutableQuery query = driver.executableQuery(queryStr)
+                .withParameters(Map.of(
+                        "properties", properties
+                ));
+        EagerResult eagerResult = query.execute();
+
+        Record record = eagerResult.records().getFirst();
+        List<Pair<String, Value>> fields = record.fields();
+        Node node = fields.getFirst().value().asNode();
+        CommonNode commonNode = nodeDTOConverter.appliedNodeToCommonNode(new HashMap<>(), node);
+
+        return nodeDTOConverter.toDTO(commonNode);
+    }
 }

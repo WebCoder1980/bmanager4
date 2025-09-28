@@ -1,9 +1,12 @@
 package org.myproject.bmanager4.service;
 
+import org.myproject.bmanager4.dto.CommonNodeDTO;
 import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.service.entityservice.CommonEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class GatewayEntityService {
@@ -12,5 +15,9 @@ public class GatewayEntityService {
 
     public CommonNodesStartAndEndDTO getAll(String entity) {
         return commonEntityService.getAll(entity);
+    }
+
+    public CommonNodeDTO create(String entity, Map<String, Object> properties) {
+        return commonEntityService.create(entity, properties);
     }
 }
