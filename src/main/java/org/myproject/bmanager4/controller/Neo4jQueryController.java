@@ -1,8 +1,8 @@
 package org.myproject.bmanager4.controller;
 
-import org.myproject.bmanager4.dto.AppResponse;
-import org.myproject.bmanager4.dto.CommonNodeDTO;
-import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
+import org.myproject.bmanager4.dto.response.AppResponse;
+import org.myproject.bmanager4.dto.common.CommonNodeDTO;
+import org.myproject.bmanager4.dto.common.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.service.entityservice.Neo4jQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

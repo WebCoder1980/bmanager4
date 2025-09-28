@@ -1,7 +1,7 @@
 package org.myproject.bmanager4.exception;
 
 import org.apache.logging.log4j.Logger;
-import org.myproject.bmanager4.dto.AppResponse;
+import org.myproject.bmanager4.dto.response.AppResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

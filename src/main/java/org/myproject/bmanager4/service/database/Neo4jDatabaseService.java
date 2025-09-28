@@ -1,8 +1,8 @@
 package org.myproject.bmanager4.service.database;
 
 import org.myproject.bmanager4.converter.NodeDTOConverter;
-import org.myproject.bmanager4.dto.CommonNodeDTO;
-import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
+import org.myproject.bmanager4.dto.common.CommonNodeDTO;
+import org.myproject.bmanager4.dto.common.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.node.CommonNode;
 import org.neo4j.driver.*;
 import org.neo4j.driver.Record;

@@ -1,4 +1,4 @@
-package org.myproject.bmanager4.dto;
+package org.myproject.bmanager4.dto.response;
 
 import lombok.Data;
 import org.myproject.bmanager4.appenum.AppResponseStatusEnum;

@@ -1,4 +1,4 @@
-package org.myproject.bmanager4.dto;
+package org.myproject.bmanager4.dto.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

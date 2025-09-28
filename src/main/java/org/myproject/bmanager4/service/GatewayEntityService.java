@@ -1,7 +1,7 @@
 package org.myproject.bmanager4.service;
 
-import org.myproject.bmanager4.dto.CommonNodeDTO;
-import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
+import org.myproject.bmanager4.dto.common.CommonNodeDTO;
+import org.myproject.bmanager4.dto.common.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.service.entityservice.CommonEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

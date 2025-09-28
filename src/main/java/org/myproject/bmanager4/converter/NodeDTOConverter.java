@@ -1,8 +1,8 @@
 package org.myproject.bmanager4.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.myproject.bmanager4.dto.CommonNodeDTO;
-import org.myproject.bmanager4.dto.CommonNodesStartAndEndDTO;
+import org.myproject.bmanager4.dto.common.CommonNodeDTO;
+import org.myproject.bmanager4.dto.common.CommonNodesStartAndEndDTO;
 import org.myproject.bmanager4.node.CommonNode;
 import org.neo4j.driver.types.Node;
 import org.springframework.beans.factory.annotation.Autowired;
